@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply antialiased;
+  }
+
+  body {
+    @apply m-0 bg-ink-50 text-ink-900;
+  }
+
+  button,
+  a,
+  input,
+  textarea {
+    @apply outline-none;
+  }
+
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible {
+    @apply ring-2 ring-brand-400 ring-offset-2;
+  }
+}
+
+@layer components {
+  .panel {
+    @apply rounded-2xl border border-ink-200/80 bg-white shadow-panel;
+  }
+
+  .panel-heading {
+    @apply text-sm font-semibold text-ink-900;
+  }
+
+  .panel-caption {
+    @apply mt-1 text-xs leading-5 text-ink-500;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-ink-200 bg-white px-4 py-2.5 text-sm font-medium text-ink-700 transition hover:border-brand-300 hover:text-brand-700;
+  }
+
+  .tag {
+    @apply inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-medium;
+  }
+}
+
+.tiptap {
+  min-height: 460px;
+  padding: 2rem;
+  color: #353a45;
+  line-height: 1.9;
+}
+
+.tiptap:focus {
+  outline: none;
+}
+
+.tiptap h1 {
+  margin: 0 0 1rem;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: #22262e;
+}
+
+.tiptap h2 {
+  margin: 1.75rem 0 0.75rem;
+  font-size: 1.35rem;
+  font-weight: 650;
+  color: #22262e;
+}
+
+.tiptap p {
+  margin: 0.75rem 0;
+}
+
+.tiptap ul,
+.tiptap ol {
+  margin: 0.75rem 0;
+  padding-left: 1.5rem;
+}
+
+.tiptap ul {
+  list-style: disc;
+}
+
+.tiptap ol {
+  list-style: decimal;
+}
+
+.tiptap blockquote {
+  margin: 1.25rem 0;
+  border-left: 3px solid #7dcbb7;
+  background: #eef8f5;
+  padding: 0.75rem 1rem;
+  color: #566175;
+}
+
+.tiptap code {
+  border-radius: 0.3rem;
+  background: #eceef2;
+  padding: 0.15rem 0.35rem;
+  font-size: 0.9em;
+}
+
+.tiptap p.is-editor-empty:first-child::before {
+  color: #8995a8;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}

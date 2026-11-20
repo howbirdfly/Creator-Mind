@@ -28,6 +28,12 @@ const router = createRouter({
           meta: { title: '多 Agent 创作' },
         },
         {
+          path: 'conversations',
+          name: 'conversations',
+          component: () => import('@/views/ConversationsView.vue'),
+          meta: { title: '多对话与消息' },
+        },
+        {
           path: 'memory',
           name: 'memory',
           component: () => import('@/views/MemoryView.vue'),

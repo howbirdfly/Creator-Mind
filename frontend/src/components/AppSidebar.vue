@@ -15,6 +15,7 @@ const navItems = [
   { name: 'dashboard', label: '创作工作台', icon: '创', hint: '概览与流程' },
   { name: 'library', label: '作品与素材库', icon: '库', hint: '导入与检索' },
   { name: 'creation', label: '多 Agent 创作', icon: '协', hint: '检索、写作、核查' },
+  { name: 'conversations', label: '多对话与消息', icon: '聊', hint: '会话与历史记录' },
   { name: 'memory', label: '个性化记忆', icon: '忆', hint: '风格与偏好' },
 ]
 </script>

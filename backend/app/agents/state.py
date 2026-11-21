@@ -1,13 +1,29 @@
-from typing import Literal, TypedDict
+from typing import Any, Literal, TypedDict
+
+from app.agents.intent import Intent, IntentSlots
 
 
 class CreationState(TypedDict, total=False):
-    """Shared state passed between the MVP creation agents."""
+    """Data passed through intent routing and the creation workflow."""
 
     task_id: str
-    topic: str
-    status: Literal["queued", "researching", "writing", "verifying", "completed", "failed"]
-    outline: list[str]
-    retrieved_sources: list[dict[str, str]]
+    conversation_id: str
+    user_input: str
+    intent: Intent
+    intent_confidence: float
+    intent_slots: IntentSlots
+    status: Literal[
+        "needs_clarification",
+        "running",
+        "completed",
+        "failed",
+        "unsupported",
+    ]
+    current_step: str
+    clarification_question: str | None
+    retrieved_sources: list[dict[str, Any]]
     draft: str
-    verification_notes: list[dict[str, str]]
+    verification_notes: list[dict[str, Any]]
+    result: dict[str, Any]
+    error_code: str
+    error_message: str

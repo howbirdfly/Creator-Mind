@@ -1,0 +1,30 @@
+{"id":"create-01","text":"写一篇介绍人工智能教育应用的文章","expected_intent":"create_content","expected_slots":{"topic":"人工智能教育应用"}}
+{"id":"create-02","text":"围绕气候变化基础知识创作一份科普稿","expected_intent":"create_content","expected_slots":{"topic":"气候变化基础知识"}}
+{"id":"create-03","text":"帮我写篇关于大学生时间管理的内容","expected_intent":"create_content","expected_slots":{"topic":"大学生时间管理"}}
+{"id":"create-04","text":"为家长准备一篇儿童科学启蒙短文","expected_intent":"create_content","expected_slots":{"topic":"儿童科学启蒙"}}
+{"id":"create-05","text":"请以新能源汽车发展为主题写一篇短文","expected_intent":"create_content","expected_slots":{"topic":"新能源汽车发展"}}
+{"id":"retrieve-01","text":"找一下我上传的机器学习入门资料","expected_intent":"retrieve_material","expected_slots":{"query":"机器学习入门"}}
+{"id":"retrieve-02","text":"在素材库搜索细胞生物学相关文档","expected_intent":"retrieve_material","expected_slots":{"query":"细胞生物学"}}
+{"id":"retrieve-03","text":"查找关于中国古建筑的素材","expected_intent":"retrieve_material","expected_slots":{"query":"中国古建筑"}}
+{"id":"retrieve-04","text":"帮我找一下以前保存的 Python 笔记","expected_intent":"retrieve_material","expected_slots":{"query":"Python 笔记"}}
+{"id":"retrieve-05","text":"检索来源 ID 为 doc-17 的项目参考资料","expected_intent":"retrieve_material","expected_slots":{"source_ids":["doc-17"]}}
+{"id":"revise-01","text":"把草稿 draft-2 改得更适合高中生阅读","expected_intent":"revise_draft","expected_slots":{"draft_id":"draft-2"}}
+{"id":"revise-02","text":"请修改 draft-11：缩短篇幅","expected_intent":"revise_draft","expected_slots":{"draft_id":"draft-11"}}
+{"id":"revise-03","text":"将草稿 article-3 的标题换得更吸引人","expected_intent":"revise_draft","expected_slots":{"draft_id":"article-3"}}
+{"id":"revise-04","text":"帮我润色 draft-6，让语气正式一些","expected_intent":"revise_draft","expected_slots":{"draft_id":"draft-6"}}
+{"id":"revise-05","text":"draft-8 按照‘删掉重复内容’的要求调整","expected_intent":"revise_draft","expected_slots":{"draft_id":"draft-8"}}
+{"id":"fact-01","text":"核查这句话：地球围绕太阳公转。","expected_intent":"fact_check","expected_slots":{"text":"地球围绕太阳公转。"}}
+{"id":"fact-02","text":"事实核查：水的化学式是 H2O。","expected_intent":"fact_check","expected_slots":{"text":"水的化学式是 H2O。"}}
+{"id":"fact-03","text":"请核对说法‘光速在真空中约为每秒 30 万公里’是否准确。","expected_intent":"fact_check","expected_slots":{}}
+{"id":"fact-04","text":"帮我验证一下：珠穆朗玛峰是世界最高峰。","expected_intent":"fact_check","expected_slots":{"text":"珠穆朗玛峰是世界最高峰。"}}
+{"id":"fact-05","text":"核查这个主张：人类血液的主要成分是水。","expected_intent":"fact_check","expected_slots":{"text":"人类血液的主要成分是水。"}}
+{"id":"chat-01","text":"pgvector 是什么？","expected_intent":"chat","expected_slots":{}}
+{"id":"chat-02","text":"给我一些提升科普文章可读性的建议","expected_intent":"chat","expected_slots":{}}
+{"id":"chat-03","text":"我想了解如何组织一篇科普文章的结构","expected_intent":"chat","expected_slots":{}}
+{"id":"chat-04","text":"解释一下事实核查为什么重要","expected_intent":"chat","expected_slots":{}}
+{"id":"chat-05","text":"今天写作状态不太好，能聊聊怎么改善吗？","expected_intent":"chat","expected_slots":{}}
+{"id":"clarify-01","text":"帮我写一篇文章","expected_intent":"clarify","expected_slots":{}}
+{"id":"clarify-02","text":"帮我核查一下","expected_intent":"clarify","expected_slots":{}}
+{"id":"clarify-03","text":"修改一下草稿","expected_intent":"clarify","expected_slots":{}}
+{"id":"clarify-04","text":"这个内容怎么样？","expected_intent":"clarify","expected_slots":{}}
+{"id":"clarify-05","text":"给我处理一下这个事情","expected_intent":"clarify","expected_slots":{}}

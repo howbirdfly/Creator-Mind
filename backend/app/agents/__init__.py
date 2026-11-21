@@ -1,1 +1,1 @@
-"""Multi-agent workflow definitions."""
+"""Intent classification, tool contracts, and workflow orchestration."""

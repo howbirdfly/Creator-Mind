@@ -34,11 +34,23 @@ class Settings(BaseSettings):
     s3_access_key: str = "creatormind"
     s3_secret_key: str = "creatormind_dev_secret"
     s3_bucket: str = "creatormind"
+    source_max_bytes: int = 10 * 1024 * 1024
+    source_max_chars: int = 500_000
+    source_max_chunks: int = 600
+    image_max_pixels: int = 20_000_000
 
     llm_provider: str = "openai-compatible"
     llm_base_url: str = "http://localhost:11434/v1"
     llm_model: str = "qwen3"
     llm_api_key: str = ""
+    embedding_base_url: str = "http://localhost:11434/v1"
+    embedding_model: str = "nomic-embed-text"
+    embedding_api_key: str = ""
+    embedding_dimensions: int = 768
+    vision_base_url: str = "http://localhost:11434/v1"
+    vision_model: str = ""
+    vision_api_key: str = ""
+    retrieval_min_similarity: float = 0.25
 
     @property
     def cors_origin_list(self) -> list[str]:

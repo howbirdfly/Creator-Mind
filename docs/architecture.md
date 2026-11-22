@@ -84,7 +84,7 @@ backend/app/
 
 ## 5. Agent 工作流
 
-当前骨架实现：
+早期图结构设计（当前工作流已改为意图路由和工具注入；RAG API 尚需注入 `search_materials` 工具）：
 
 ```text
 START → Research → Writer → Verification → END
@@ -122,6 +122,9 @@ Supervisor
 ```text
 POST   /api/v1/sources
 GET    /api/v1/sources
+POST   /api/v1/sources/search
+GET    /api/v1/sources/{source_id}/citations/{chunk_id}
+DELETE /api/v1/sources/{source_id}
 POST   /api/v1/creations
 GET    /api/v1/creations/{task_id}
 POST   /api/v1/creations/{task_id}/feedback

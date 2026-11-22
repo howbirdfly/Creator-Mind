@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const capabilities = [
-  { title: '文章与网页', description: '粘贴正文或提供公开链接，保留原始来源。', icon: '文' },
-  { title: 'PDF 文档', description: '解析正文、页码与引用位置，便于证据回溯。', icon: 'PDF' },
+  { title: 'TXT 与 Markdown', description: '导入文字资料，保留原始文件与段落位置。', icon: '文' },
+  { title: 'PDF 与图片', description: 'PDF 保留页码；图片提取可见文字和画面描述，并保留原图。', icon: '图' },
   { title: '分类与检索', description: '按主题、类型和时间组织素材，支持语义检索。', icon: '检' },
 ]
 </script>
@@ -74,7 +74,7 @@ const capabilities = [
           <div class="rounded-2xl border border-dashed border-brand-200 bg-brand-50/50 px-4 py-8 text-center">
             <span class="mx-auto grid h-12 w-12 place-items-center rounded-full bg-white text-lg text-brand-700 shadow-sm">↑</span>
             <p class="mt-4 text-sm font-semibold text-ink-800">拖放文件到这里</p>
-            <p class="mt-1 text-xs leading-5 text-ink-500">计划支持 PDF、Markdown、TXT 与网页链接</p>
+            <p class="mt-1 text-xs leading-5 text-ink-500">后端支持 PDF、Markdown、TXT、PNG、JPEG 与 WebP；上传交互待接入登录</p>
           </div>
         </article>
 

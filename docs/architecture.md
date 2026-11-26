@@ -122,6 +122,7 @@ Supervisor
 ```text
 POST   /api/v1/sources
 GET    /api/v1/sources
+GET    /api/v1/sources/{asset_id}
 POST   /api/v1/creations
 GET    /api/v1/creations/{task_id}
 POST   /api/v1/creations/{task_id}/feedback

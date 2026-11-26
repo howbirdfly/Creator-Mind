@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { abortAuthRequests, ApiError, registerAuthProvider, request, StaleRequestError } from './client'
+import { abortAuthRequests, api, ApiError, registerAuthProvider, request, StaleRequestError } from './client'
 
 function json(body: unknown, status = 200) { return new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } }) }
 
@@ -24,6 +24,21 @@ describe('authenticated API client', () => {
     expect(new Headers(init.headers).get('X-CSRF-Token')).toBe('csrf-in-memory')
     await request('/health')
     expect(new Headers(fetcher.mock.calls[1][1].headers).has('X-CSRF-Token')).toBe(false)
+  })
+
+  it('sends authenticated uploads with a browser-generated multipart boundary', async () => {
+    const fetcher = vi.fn().mockResolvedValue(json({ id: 'source' }, 201))
+    vi.stubGlobal('fetch', fetcher)
+
+    await api.uploadSource(new File(['notes'], 'notes.txt'), 'https://example.org/')
+
+    const [url, init] = fetcher.mock.calls[0]
+    expect(url).toBe('/api/v1/sources')
+    expect(init.credentials).toBe('include')
+    expect(init.body).toBeInstanceOf(FormData)
+    expect(init.body.get('source_url')).toBe('https://example.org/')
+    expect(new Headers(init.headers).get('X-CSRF-Token')).toBe('csrf-in-memory')
+    expect(new Headers(init.headers).has('Content-Type')).toBe(false)
   })
   it.each([
     [401, 'INVALID_CREDENTIALS', false], [401, 'SESSION_INVALID', true],

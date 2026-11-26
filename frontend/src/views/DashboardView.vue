@@ -1,6 +1,21 @@
 <script setup lang="ts">
+import { onMounted, ref } from 'vue'
+
+import { api } from '../api/client'
+
+const sourceCount = ref<number | null>(null)
+const sourceCountFailed = ref(false)
+
+onMounted(async () => {
+  try {
+    const { total } = await api.countSources()
+    sourceCount.value = total
+  } catch {
+    sourceCountFailed.value = true
+  }
+})
+
 const stats = [
-  { label: '已导入素材', value: '0', unit: '篇', note: '支持文章、PDF 与网页' },
   { label: '创作草稿', value: '0', unit: '篇', note: '等待开始第一次创作' },
   { label: '待核查主张', value: '0', unit: '条', note: '事实核查流程未启动' },
   { label: '风格记忆', value: '0', unit: '条', note: '经用户确认后写入' },
@@ -41,6 +56,15 @@ const workflow = [
     </section>
 
     <section class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <article class="panel p-5">
+        <p class="text-xs font-medium text-ink-500">已导入素材</p>
+        <p class="mt-3 flex items-end gap-1 text-ink-950" aria-live="polite">
+          <span v-if="sourceCount !== null" class="text-3xl font-semibold tracking-tight">{{ sourceCount }}</span>
+          <span v-if="sourceCount !== null" class="pb-1 text-xs text-ink-400">份</span>
+          <span v-else class="text-sm text-ink-500">{{ sourceCountFailed ? '暂时无法读取' : '正在加载…' }}</span>
+        </p>
+        <p class="mt-3 text-[11px] leading-5 text-ink-400">支持 PDF、Markdown 和 TXT</p>
+      </article>
       <article v-for="stat in stats" :key="stat.label" class="panel p-5">
         <p class="text-xs font-medium text-ink-500">{{ stat.label }}</p>
         <p class="mt-3 flex items-end gap-1 text-ink-950">
@@ -103,7 +127,7 @@ const workflow = [
         <article class="panel p-5 sm:p-6">
           <h3 class="panel-heading">下一步建议</h3>
           <ol class="mt-4 space-y-3 text-xs leading-5 text-ink-500">
-            <li class="flex gap-3"><span class="font-semibold text-brand-600">01</span>接入用户认证与素材上传</li>
+            <li class="flex gap-3"><span class="font-semibold text-brand-600">01</span>接入用户认证与素材权限隔离</li>
             <li class="flex gap-3"><span class="font-semibold text-brand-600">02</span>实现文档解析、切片与向量索引</li>
             <li class="flex gap-3"><span class="font-semibold text-brand-600">03</span>接通 LangGraph 与可替换模型 API</li>
           </ol>

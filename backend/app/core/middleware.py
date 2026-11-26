@@ -6,14 +6,18 @@ class PrivateResponseMiddleware:
     def __init__(self, app: ASGIApp, api_prefix: str) -> None:
         self.app = app
         self.prefixes = (f"{api_prefix}/auth", f"{api_prefix}/conversations")
+        self.sources_prefix = f"{api_prefix}/sources"
 
     async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
-        if scope["type"] != "http" or not any(
-            scope.get("path", "").startswith(prefix) for prefix in self.prefixes
-        ):
+        path = scope.get("path", "")
+        is_json_endpoint = path.startswith(self.prefixes)
+        is_sources_endpoint = path == self.sources_prefix or path.startswith(
+            f"{self.sources_prefix}/"
+        )
+        if scope["type"] != "http" or not (is_json_endpoint or is_sources_endpoint):
             await self.app(scope, receive, send)
             return
-        if scope.get("method") in {"POST", "PATCH", "PUT"}:
+        if is_json_endpoint and scope.get("method") in {"POST", "PATCH", "PUT"}:
             body = bytearray()
             while True:
                 message = await receive()

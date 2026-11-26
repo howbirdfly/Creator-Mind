@@ -10,6 +10,7 @@ from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from sqlalchemy.pool import NullPool
 from sqlalchemy.schema import CreateSchema, DropSchema
 
+from app.api.routes import sources
 from app.core.config import settings
 from app.core.csrf import create_csrf
 from app.core.security import generate_token, token_digest
@@ -17,6 +18,7 @@ from app.db.base import Base
 from app.db.session import get_db
 from app.main import app
 from app.models import AuthSession, Conversation, Message, User
+from app.services import source_storage
 
 ORIGIN = "http://localhost:5173"
 
@@ -88,6 +90,42 @@ def client_for(token: str) -> httpx.AsyncClient:
         cookies={settings.session_cookie_name: token, settings.csrf_cookie_name: csrf},
         headers={"Origin": ORIGIN, "X-CSRF-Token": csrf},
     )
+
+
+async def test_materials_are_private_to_the_uploading_user(resource_database, monkeypatch) -> None:
+    sessions = resource_database
+    alice, alice_token = await seed_user(sessions, "alice")
+    bob, bob_token = await seed_user(sessions, "bob")
+    objects = {}
+    payload = b"Private material"
+
+    def put_object(source, file):
+        objects[source.object_key] = file.read()
+
+    monkeypatch.setattr(sources, "put_source_object", put_object)
+    monkeypatch.setattr(source_storage, "_read_object", objects.__getitem__)
+    async with client_for(alice_token) as a, client_for(bob_token) as b:
+        path = "/api/v1/sources"
+        files = {"file": ("notes.txt", payload, "text/plain")}
+        rejected = await a.post(path, files=files, headers={"X-CSRF-Token": "invalid"})
+        assert rejected.json()["code"] == "CSRF_INVALID"
+
+        created = await a.post(path, files=files)
+        assert created.status_code == 201
+        assert created.headers["cache-control"] == "no-store"
+        asset = created.json()
+        assert (await a.get(path)).json() == [asset]
+        assert (await a.get(f"{path}/count")).json() == {"total": 1}
+        assert (await b.get(path)).json() == []
+        assert (await b.get(f"{path}/count")).json() == {"total": 0}
+        assert (await b.get(f"{path}/{asset['id']}")).status_code == 404
+
+        async with sessions() as db:
+            asset_id = UUID(asset["id"])
+            result = await source_storage.read_source_file(db, asset_id, user_id=alice.id)
+            assert result is not None
+            assert result[1] == payload
+            assert await source_storage.read_source_file(db, asset_id, user_id=bob.id) is None
 
 
 async def test_all_resource_operations_enforce_owner(resource_database) -> None:

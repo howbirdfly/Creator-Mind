@@ -5,6 +5,15 @@ export interface HealthResponse {
   environment: string
 }
 
+export interface Source {
+  id: string
+  filename: string
+  content_type: string
+  size_bytes: number
+  source_url: string | null
+  created_at: string
+}
+
 const BASE_URL = (import.meta.env.VITE_API_BASE_URL || '/api/v1').replace(/\/$/, '')
 
 export class ApiError extends Error {
@@ -67,7 +76,9 @@ export async function request<T>(path: string, init: RequestInit = {}, options: 
     if (isPrivate && provider?.allowed && !provider.allowed()) throw new StaleRequestError()
     const headers = new Headers(init.headers)
     headers.set('Accept', 'application/json')
-    if (init.body) headers.set('Content-Type', 'application/json')
+    if (typeof init.body === 'string' && !headers.has('Content-Type')) {
+      headers.set('Content-Type', 'application/json')
+    }
     const method = (init.method || 'GET').toUpperCase()
     if (options.csrf ?? (isPrivate && !['GET', 'HEAD', 'OPTIONS'].includes(method))) {
       if (!provider) throw new Error('认证客户端尚未初始化')
@@ -102,4 +113,13 @@ export async function request<T>(path: string, init: RequestInit = {}, options: 
 
 export const api = {
   health: () => request<HealthResponse>('/health'),
+  countSources: () => request<{ total: number }>('/sources/count', {}, { private: true }),
+  listSources: (limit: number, offset: number) =>
+    request<Source[]>(`/sources?limit=${limit}&offset=${offset}`, {}, { private: true }),
+  uploadSource: (file: File, sourceUrl: string) => {
+    const body = new FormData()
+    body.set('file', file)
+    if (sourceUrl) body.set('source_url', sourceUrl)
+    return request<Source>('/sources', { method: 'POST', body }, { private: true })
+  },
 }
